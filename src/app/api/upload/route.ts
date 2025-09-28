@@ -3,6 +3,10 @@ import { requireAuth, getClientIdentifier } from "@/lib/auth";
 import { checkRateLimit, incrementRateLimit } from "@/lib/rate-limit";
 import { uploadToS3 } from "@/lib/aws";
 
+// Configure runtime for larger request bodies
+export const runtime = "nodejs";
+export const maxDuration = 300; // 5 minutes for large uploads
+
 const MAX_IMAGES_PER_UPLOAD = parseInt(
   process.env.MAX_IMAGES_PER_UPLOAD || "150"
 );
