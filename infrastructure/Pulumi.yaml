@@ -1,0 +1,3 @@
+name: susahaus-asset-upload
+runtime: nodejs
+description: Infrastructure for Susahaus Asset Upload Platform

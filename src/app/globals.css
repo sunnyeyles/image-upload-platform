@@ -1,26 +1,169 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jetbrains-mono);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0rem; /* No rounded corners for brutalist style */
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #ffff00;
+  --secondary-foreground: #000000;
+  --muted: #f0f0f0;
+  --muted-foreground: #666666;
+  --accent: #ff0000;
+  --accent-foreground: #ffffff;
+  --destructive: #ff0000;
+  --border: #000000;
+  --input: #ffffff;
+  --ring: #000000;
+  --chart-1: #ff0000;
+  --chart-2: #00ff00;
+  --chart-3: #0000ff;
+  --chart-4: #ffff00;
+  --chart-5: #ff00ff;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffff00;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #000000;
+  --sidebar-ring: #000000;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #ffff00;
+  --secondary-foreground: #000000;
+  --muted: #333333;
+  --muted-foreground: #cccccc;
+  --accent: #ff0000;
+  --accent-foreground: #ffffff;
+  --destructive: #ff0000;
+  --border: #ffffff;
+  --input: #000000;
+  --ring: #ffffff;
+  --chart-1: #ff0000;
+  --chart-2: #00ff00;
+  --chart-3: #0000ff;
+  --chart-4: #ffff00;
+  --chart-5: #ff00ff;
+  --sidebar: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #ffff00;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #ffffff;
+  --sidebar-ring: #ffffff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-jetbrains-mono), "Courier New", monospace;
+    font-weight: bold;
+    letter-spacing: 0.05em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Brutalist styling */
+@layer components {
+  .brutalist-border {
+    border: 4px solid black;
+    box-shadow: 8px 8px 0px black;
+  }
+
+  .brutalist-button {
+    border: 4px solid black;
+    box-shadow: 4px 4px 0px black;
+    transition: all 0.1s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .brutalist-button:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px black;
+  }
+
+  .brutalist-button:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px black;
+  }
+
+  .brutalist-card {
+    border: 4px solid black;
+    box-shadow: 8px 8px 0px black;
+    background: white;
+  }
+
+  .brutalist-input {
+    border: 4px solid black;
+    box-shadow: inset 2px 2px 0px black;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .brutalist-input:focus {
+    box-shadow: inset 2px 2px 0px black, 0px 0px 0px 4px yellow;
+  }
 }

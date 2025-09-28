@@ -5,7 +5,7 @@ A brutalist-themed image upload platform built with Next.js, AWS S3, and Pulumi 
 ## Features
 
 - **Brutalist Design**: Bold, high-contrast UI with sharp edges and monospace fonts
-- **Password Protection**: Simple password-based authentication (password: `8!6G#`)
+- **Password Protection**: Simple password-based authentication
 - **Rate Limiting**: 300 images per day limit to prevent abuse
 - **Batch Upload**: Upload up to 150 images at once
 - **File Validation**: Image type and size validation (max 10MB per file)
@@ -38,11 +38,11 @@ Create a `.env.local` file in the root directory:
 # AWS Configuration
 AWS_ACCESS_KEY_ID=your_access_key_here
 AWS_SECRET_ACCESS_KEY=your_secret_key_here
-AWS_REGION=us-east-1
-S3_BUCKET_NAME=susahaus-asset-upload
+AWS_REGION=your_aws_region
+S3_BUCKET_NAME=your_bucket_name
 
 # Application Configuration
-UPLOAD_PASSWORD=8!6G#
+UPLOAD_PASSWORD=your_secure_password_here
 MAX_IMAGES_PER_DAY=300
 MAX_IMAGES_PER_UPLOAD=150
 MAX_FILE_SIZE_MB=10
@@ -75,7 +75,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 
 ## Usage
 
-1. **Login**: Enter the password `8!6G#` to access the platform
+1. **Login**: Enter your configured password to access the platform
 2. **Upload**: Drag and drop or select up to 150 images (max 10MB each)
 3. **Gallery**: View and download all uploaded images
 4. **Rate Limits**: Maximum 300 images per day per IP address
@@ -107,4 +107,5 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 ## License
 
 MIT License
+
 # image-upload-platform
