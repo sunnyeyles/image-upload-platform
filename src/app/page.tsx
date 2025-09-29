@@ -156,7 +156,7 @@ export default function Home() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-3xl font-bold">
-                SUSHAUS ASSET UPLOAD
+                BETTER THAN DROPBOX * UPLOAD BY THE FOLDER
               </CardTitle>
               <Button
                 onClick={handleLogout}
@@ -219,8 +219,7 @@ export default function Home() {
         <Card className="brutalist-card">
           <CardContent className="pt-6">
             <div className="text-center text-sm text-gray-600">
-              <p className="font-bold">RATE LIMIT: 300 IMAGES PER DAY</p>
-              <p>MAX 150 IMAGES PER UPLOAD • MAX 10MB PER FILE</p>
+              <p className="font-bold">UPLOAD YOUR ASSETS TO MY S3 BUCKET</p>
             </div>
           </CardContent>
         </Card>

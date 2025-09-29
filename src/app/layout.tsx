@@ -8,8 +8,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Susahous Asset Upload",
-  description: "Brutalist image upload platform with AWS S3",
+  title: "Better Than Dropbox * Upload By The Folder",
+  description: "Image upload platform with AWS S3",
 };
 
 export default function RootLayout({
