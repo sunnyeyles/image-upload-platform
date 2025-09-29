@@ -29,7 +29,7 @@ export function Gallery({ isAuthenticated }: GalleryProps) {
     setError("");
 
     try {
-      const response = await fetch("/api/gallery-blob", {
+      const response = await fetch("/api/gallery", {
         headers: {
           Authorization: "Basic " + btoa("user:" + "8!6G#"),
         },
