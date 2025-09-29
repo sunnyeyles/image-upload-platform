@@ -34,13 +34,8 @@ const bucketPolicy = new aws.s3.BucketPolicy(
             Principal: {
               AWS: "*", // In production, you'd want to restrict this to specific IAM roles
             },
-            Action: ["s3:PutObject", "s3:PutObjectAcl"],
+            Action: ["s3:PutObject"],
             Resource: `${bucketArn}/*`,
-            Condition: {
-              StringEquals: {
-                "s3:x-amz-acl": "private",
-              },
-            },
           },
           {
             Sid: "AllowReads",
@@ -56,6 +51,26 @@ const bucketPolicy = new aws.s3.BucketPolicy(
     ),
   },
   { dependsOn: bucketPublicAccessBlock }
+);
+
+// Add CORS configuration for browser uploads (non-deprecated resource)
+const bucketCors = new aws.s3.BucketCorsConfiguration(
+  "susahaus-asset-upload-cors",
+  {
+    bucket: bucket.id,
+    corsRules: [
+      {
+        allowedMethods: ["PUT", "GET", "HEAD"],
+        allowedOrigins: [
+          "https://image-upload-platform.vercel.app",
+          "http://localhost:3000",
+        ],
+        allowedHeaders: ["*"],
+        exposeHeaders: ["ETag"],
+        maxAgeSeconds: 3000,
+      },
+    ],
+  }
 );
 
 // Export the bucket information

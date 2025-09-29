@@ -54,7 +54,6 @@ export async function getSignedUploadUrl(
     Bucket: BUCKET_NAME,
     Key: key,
     ContentType: contentType,
-    ACL: "private",
   });
 
   return await getSignedUrl(s3Client, command, { expiresIn });
