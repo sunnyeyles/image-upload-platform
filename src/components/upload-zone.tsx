@@ -55,8 +55,8 @@ export function UploadZone({
     accept: {
       "image/*": [".jpeg", ".jpg", ".png", ".gif", ".webp"],
     },
-    maxFiles: 150,
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxFiles: 10,
+    maxSize: 5 * 1024 * 1024, // 5MB
   });
 
   const removeFile = (index: number) => {

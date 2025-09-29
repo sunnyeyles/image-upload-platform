@@ -45,6 +45,21 @@ export async function getSignedDownloadUrl(
   return await getSignedUrl(s3Client, command, { expiresIn });
 }
 
+export async function getSignedUploadUrl(
+  key: string,
+  contentType: string,
+  expiresIn: number = 900
+) {
+  const command = new PutObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: key,
+    ContentType: contentType,
+    ACL: "private",
+  });
+
+  return await getSignedUrl(s3Client, command, { expiresIn });
+}
+
 export async function deleteFromS3(key: string) {
   const command = new DeleteObjectCommand({
     Bucket: BUCKET_NAME,

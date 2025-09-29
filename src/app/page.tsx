@@ -40,35 +40,102 @@ export default function Home() {
     setUploadResults([]);
     setErrors([]);
 
+    const allResults = [];
+    const allErrors = [];
+
     try {
-      const formData = new FormData();
-      files.forEach((file) => {
-        formData.append("files", file);
-      });
+      // Upload files one by one using client-side uploads
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: "Basic " + btoa("user:" + "8!6G#"),
-        },
-        body: formData,
-      });
+        try {
+          // Generate unique filename
+          const timestamp = Date.now();
+          const randomId = Math.random().toString(36).substring(2, 15);
+          const extension = file.name.split(".").pop();
 
-      const data = await response.json();
+          // Preserve folder structure if file has a path (from folder upload)
+          let folderPath = "";
+          if (
+            file.webkitRelativePath &&
+            file.webkitRelativePath.includes("/")
+          ) {
+            const pathParts = file.webkitRelativePath.split("/");
+            pathParts.pop(); // Remove filename
+            // Add random slug to the first folder in the path to prevent conflicts
+            if (pathParts.length > 0) {
+              const randomSlug = Math.random().toString(36).substring(2, 8);
+              pathParts[0] = `${pathParts[0]}-${randomSlug}`;
+            }
+            folderPath = pathParts.join("/") + "/";
+          }
 
-      if (response.ok) {
-        setUploadResults(data.results || []);
-        if (data.errors && data.errors.length > 0) {
-          setErrors(data.errors);
+          const filename = `uploads/${folderPath}${timestamp}-${randomId}.${extension}`;
+
+          // Get upload token (S3 presigned PUT URL) from our API
+          const tokenResponse = await fetch("/api/upload-token", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Basic " + btoa("user:" + "8!6G#"),
+            },
+            body: JSON.stringify({
+              filename,
+              contentType: file.type,
+              size: file.size,
+            }),
+          });
+
+          if (!tokenResponse.ok) {
+            const errorData = await tokenResponse.json();
+            allErrors.push(
+              `${file.name}: ${errorData.error || "Failed to get upload token"}`
+            );
+            continue;
+          }
+
+          const { uploadUrl } = await tokenResponse.json();
+
+          // Upload directly to S3 using the presigned URL (client-side)
+          const uploadResponse = await fetch(uploadUrl, {
+            method: "PUT",
+            body: file,
+            headers: {
+              "Content-Type": file.type,
+            },
+          });
+
+          if (uploadResponse.ok) {
+            const blobUrl = uploadResponse.url;
+            allResults.push({
+              originalName: file.webkitRelativePath || file.name,
+              key: filename,
+              url: blobUrl,
+              size: file.size,
+              type: file.type,
+            });
+          } else {
+            allErrors.push(`${file.name}: Upload failed`);
+          }
+        } catch (error) {
+          allErrors.push(`${file.name}: Upload failed`);
         }
-        setUploadProgress(100);
 
-        // Switch to gallery tab after successful upload
+        // Update progress
+        const progress = Math.round(((i + 1) / files.length) * 100);
+        setUploadProgress(progress);
+      }
+
+      setUploadResults(allResults);
+      if (allErrors.length > 0) {
+        setErrors(allErrors);
+      }
+
+      // Switch to gallery tab after successful upload
+      if (allResults.length > 0) {
         setTimeout(() => {
           setActiveTab("gallery");
         }, 2000);
-      } else {
-        setErrors([data.error || "Upload failed"]);
       }
     } catch (error) {
       setErrors(["Network error. Please try again."]);
